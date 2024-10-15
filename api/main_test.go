@@ -1,13 +1,13 @@
 package api
 
-// import (
-// 	"os"
+import (
+	"os"
+	"testing"
 
-// 	"github.com/Matltin/simple-bank/util"
-// 	"github.com/gin-gonic/gin"
-// )
+	"github.com/gin-gonic/gin"
+)
 
-// func TestMain(m *testing.M) {
-// 	gin.SetMode(gin.TestMode())
-// 	os.Exit(m.Run())
-// }
+func TestMain(m *testing.M) {
+	gin.SetMode(gin.TestMode)
+	os.Exit(m.Run())
+}

@@ -87,10 +87,10 @@ func TestGetAccountAPI(t *testing.T) {
 			store := mockdb.NewMockStore(ctrl)
 			tc.builStubs(store)
 
-			store.EXPECT().
-				GetAccount(gomock.Any(), gomock.Eq(account.ID)).
-				Times(1).
-				Return(account, nil)
+			// store.EXPECT().
+			// 	GetAccount(gomock.Any(), gomock.Eq(account.ID)).
+			// 	Times(1).
+			// 	Return(account, nil)
 			// start test server and send request
 			server := NewServer(store)
 			recorder := httptest.NewRecorder()
