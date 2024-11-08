@@ -162,6 +162,10 @@ func randomAccount(owner string) db.Account {
 	}
 }
 
+func randomUser(t *testing.T) (db.User, error) {
+	return db.User{}, nil
+}
+
 func requestBodyMatchAccount(t *testing.T, body *bytes.Buffer, account db.Account) {
 	data, err := ioutil.ReadAll(body)
 	require.NoError(t, err)
