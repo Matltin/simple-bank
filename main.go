@@ -31,7 +31,7 @@ func main() {
 	}
 
 	store := db.NewStore(conn)
-	// go runGateWayServer(store, config)
+	runGateWayServer(store, config)
 	// runGrpcServer(store, config)
 	// runGinServer(store, config)
 }
@@ -72,11 +72,14 @@ func runGateWayServer(store db.Store, config util.Config) {
 
 	err = pb.RegisterSimpleBankHandlerServer(ctx, grpcMux, server)
 	if err != nil {
-		log.Fatal("cannot register handel server")
+		log.Fatal("cannot register handle server:", err)
 	}
 
 	mux := http.NewServeMux()
 	mux.Handle("/", grpcMux)
+
+	fs := http.FileServer(http.Dir("./doc/swagger"))
+	mux.Handle("/swagger/", http.StripPrefix("/swagger/", fs))
 
 	lis, err := net.Listen("tcp", config.HTTPServerAddress)
 	if err != nil {

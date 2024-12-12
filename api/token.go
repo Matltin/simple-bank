@@ -22,6 +22,7 @@ func (server *Server) renewAccessToken(ctx *gin.Context) {
 	var req renewAccessRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
 		ctx.JSON(http.StatusBadRequest, errorResponse(err))
+		return
 	}
 
 	refreshPayload, err := server.tokenMaker.VerifyToken(req.RefreshToken)
