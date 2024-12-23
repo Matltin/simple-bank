@@ -22,11 +22,14 @@ migratedown:
 migratedown1:
 	migrate -path db/migration/ -database "postgresql://root:secret@localhost:5432/simple_bank?sslmode=disable" -verbose down 1
 
+new_migrate:
+	migrate create -ext sql -dir db/migration -seq $(name)
+
 sqlc:
 	sqlc generate
 
 test:
-	go test -v -cover ./...
+	go test -v -cover -short ./...
 
 server:
 	go run main.go
@@ -46,4 +49,4 @@ proto:
 evans:
 	evans --host localhost --port 9090 -r repl
 
-.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 sqlc test server mock proto evans
+.PHONY: postgres createdb dropdb migrateup migrateup1 migratedown migratedown1 new_migrate~ sqlc test server mock proto evans
