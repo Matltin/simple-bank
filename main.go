@@ -11,6 +11,7 @@ import (
 	"github.com/Matltin/simple-bank/api"
 	db "github.com/Matltin/simple-bank/db/sqlc"
 	"github.com/Matltin/simple-bank/gapi"
+	"github.com/Matltin/simple-bank/mail"
 	"github.com/Matltin/simple-bank/pb"
 	"github.com/Matltin/simple-bank/util"
 	"github.com/Matltin/simple-bank/worker"
@@ -47,7 +48,7 @@ func main() {
 	}
 
 	taskDistributor := worker.NewRedisTaskDistributor(redisOpt)
-	go runTaskProcessor(redisOpt, store)
+	go runTaskProcessor(config, redisOpt, store)
 
 	runGateWayServer(store, config, taskDistributor)
 	// runGrpcServer(store, config)
@@ -125,8 +126,9 @@ func runGinServer(store db.Store, config util.Config) {
 	}
 }
 
-func runTaskProcessor(redisOpt asynq.RedisClientOpt, store db.Store) {
-	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store)
+func runTaskProcessor(config util.Config, redisOpt asynq.RedisClientOpt, store db.Store) {
+	mail := mail.NewGmailSender(config.EmailSenderName, config.EmailSenderAdderss, config.EmailSenderPassword)
+	taskProcessor := worker.NewRedisTaskProcessor(redisOpt, store, mail)
 	err := taskProcessor.Start()
 	if err != nil {
 		fmt.Println("failed to start task processor")
