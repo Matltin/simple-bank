@@ -27,6 +27,7 @@ type userResponse struct {
 	CreateAt         time.Time `json:"create_at"`
 }
 
+
 func newUserresponse(user db.User) userResponse {
 	return userResponse{
 		Username:         user.Username,
@@ -37,6 +38,8 @@ func newUserresponse(user db.User) userResponse {
 	}
 }
 
+
+// Third party 
 func (server *Server) createUser(ctx *gin.Context) {
 	var req createUserRequest
 	if err := ctx.ShouldBindJSON(&req); err != nil {
