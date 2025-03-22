@@ -40,6 +40,7 @@ func NewServer(config util.Config, store db.Store) (*Server, error) {
 	return server, nil
 }
 
+// end point 
 func (server *Server) setupRouter() {
 	router := gin.Default()
 
